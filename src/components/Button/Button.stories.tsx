@@ -1,144 +1,49 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Button } from "./index";
-import { within, expect } from "storybook/test";
-import { userEvent } from "storybook/test";
+import { expect, fn, userEvent, within } from "storybook/test";
+import { Button } from ".";
+import { Icon } from "../Icon";
 
-const meta = {
-  title: "Leo/Button",
+const meta: Meta<typeof Button> = {
+  title: "Components/Button",
   component: Button,
-  parameters: {
-    layout: "centered",
-  },
   tags: ["autodocs"],
-  argTypes: {
-    variant: {
-      control: "select",
-      options: [
-        "default",
-        "destructive",
-        "outline",
-        "secondary",
-        "ghost",
-        "link",
-      ],
-    },
-    size: {
-      control: "select",
-      options: ["default", "sm", "lg", "icon"],
-    },
-  },
-} satisfies Meta<typeof Button>;
+  args: { children: "Continue", onClick: fn() },
+  argTypes: { variant: { control: "select", options: ["filled", "tonal", "outlined", "text"] } },
+};
 
 export default meta;
-
 type Story = StoryObj<typeof meta>;
 
-const assertButtonExists = async (canvasElement: HTMLElement) => {
-  const canvas = within(canvasElement);
-  const button = canvas.getByRole("button");
-  await expect(button).toBeInTheDocument();
-  return button;
-};
+export const Filled: Story = {
+  args: { variant: "filled" },
+  play: async ({ canvasElement, args }) => {
+    const button = within(canvasElement).getByRole("button", { name: /continue/i });
 
-export const Default: Story = {
-  args: {
-    children: "Button",
-  },
-  play: async ({ canvasElement }) => {
-    const button = await assertButtonExists(canvasElement);
-    await expect(button).toHaveTextContent("Button");
-  },
-};
-
-export const Secondary: Story = {
-  args: {
-    variant: "secondary",
-    children: "Secondary",
-  },
-
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    const button = canvas.getByRole("button");
-
+    await expect(button).toBeVisible();
     await userEvent.click(button);
-
-    await expect(button).toHaveTextContent("Secondary");
+    await expect(args.onClick).toHaveBeenCalled();
   },
 };
 
-export const Destructive: Story = {
-  args: {
-    variant: "destructive",
-    children: "Destructive",
-  },
-  play: async ({ canvasElement }) => {
-    const button = await assertButtonExists(canvasElement);
-    await expect(button).toHaveTextContent("Destructive");
-  },
+export const Tonal: Story = { args: { variant: "tonal" } };
+export const Outlined: Story = { args: { variant: "outlined" } };
+export const Text: Story = { args: { variant: "text" } };
+
+export const WithIcon: Story = {
+  args: { icon: <Icon name="upload" className="size-4" />, children: "Upload" },
 };
 
-export const Outline: Story = {
-  args: {
-    variant: "outline",
-    children: "Outline",
-  },
-  play: async ({ canvasElement }) => {
-    const button = await assertButtonExists(canvasElement);
-    await expect(button).toHaveTextContent("Outline");
-  },
-};
+/** Disabled as well as spinning, so it cannot be pressed twice. */
+export const Loading: Story = {
+  args: { loading: true },
+  play: async ({ canvasElement, args }) => {
+    const button = within(canvasElement).getByRole("button");
 
-export const Ghost: Story = {
-  args: {
-    variant: "ghost",
-    children: "Ghost",
-  },
-  play: async ({ canvasElement }) => {
-    const button = await assertButtonExists(canvasElement);
-    await expect(button).toHaveTextContent("Ghost");
-  },
-};
-
-export const Link: Story = {
-  args: {
-    variant: "link",
-    children: "Link",
-  },
-  play: async ({ canvasElement }) => {
-    const button = await assertButtonExists(canvasElement);
-    await expect(button).toHaveTextContent("Link");
-  },
-};
-
-export const Small: Story = {
-  args: {
-    size: "sm",
-    children: "Small",
-  },
-  play: async ({ canvasElement }) => {
-    const button = await assertButtonExists(canvasElement);
-    await expect(button).toHaveTextContent("Small");
-  },
-};
-
-export const Large: Story = {
-  args: {
-    size: "lg",
-    children: "Large",
-  },
-  play: async ({ canvasElement }) => {
-    const button = await assertButtonExists(canvasElement);
-    await expect(button).toHaveTextContent("Large");
-  },
-};
-
-export const Disabled: Story = {
-  args: {
-    isDisabled: true,
-    children: "Disabled",
-  },
-  play: async ({ canvasElement }) => {
-    const button = await assertButtonExists(canvasElement);
     await expect(button).toBeDisabled();
+    await expect(button).toHaveAttribute("aria-busy", "true");
+    await userEvent.click(button);
+    await expect(args.onClick).not.toHaveBeenCalled();
   },
 };
+
+export const Disabled: Story = { args: { disabled: true } };

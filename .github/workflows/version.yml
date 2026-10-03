@@ -121,9 +121,10 @@ jobs:
       - name: Update Playwright Badge with Version
         run: |
           PLAYWRIGHT_VERSION=$(node -p "let v=require('./package.json').devDependencies.playwright.replace(/^\^/, ''); 'v'+v")
-          echo "Updating README.md with Playwright version: $PLAYWRIGHT_VERSION"
-          sed -i -E "s#(!\[Playwright\]\(https://img.shields.io/badge/Playwright-)[^ ]+(-2EAD33\?style=flat&logo=https://raw.githubusercontent.com/AtomixPlus/Leo/main/.github/assets/playwright.svg\))#\1${PLAYWRIGHT_VERSION}\2#g" README.md
-          sed -i -E "s#(!\[Playwright\]\(https://img.shields.io/badge/Playwright-)[^ ]+(-2EAD33\?style=flat&logo=https://raw.githubusercontent.com/AtomixPlus/Leo/main/.github/assets/playwright.svg\))#\1${PLAYWRIGHT_VERSION}\2#g" CONTRIBUTING.md
+          echo "Updating README.md and CONTRIBUTING.md with Playwright version: $PLAYWRIGHT_VERSION"
+          BASE64_SVG="PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDQwMCA0MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xMzYuNDQ0IDIyMS41NTZDMTIzLjU1OCAyMjUuMjEzIDExNS4xMDQgMjMxLjYyNSAxMDkuNTM1IDIzOC4wMzJDMTE0Ljg2OSAyMzMuMzY0IDEyMi4wMTQgMjI5LjA4IDEzMS42NTIgMjI2LjM0OEMxNDEuNTEgMjIzLjU1NCAxNDkuOTIgMjIzLjU3NCAxNTYuODY5IDIyNC45MTVWMjE5LjQ4MUMxNTAuOTQxIDIxOC45MzkgMTQ0LjE0NSAyMTkuMzcxIDEzNi40NDQgMjIxLjU1Nlo..."
+          sed -i -E "s#(src=\"https://img.shields.io/badge/Playwright-)[^-\"]+(-1E8D22\?style=flat&logo=)[^\"]+#\1${PLAYWRIGHT_VERSION}\2data:image/svg+xml;base64,${BASE64_SVG}#g" README.md
+          sed -i -E "s#(src=\"https://img.shields.io/badge/Playwright-)[^-\"]+(-1E8D22\?style=flat&logo=)[^\"]+#\1${PLAYWRIGHT_VERSION}\2data:image/svg+xml;base64,${BASE64_SVG}#g" CONTRIBUTING.md
           echo "Updated README.md and CONTRIBUTING.md: Playwright $PLAYWRIGHT_VERSION"
 
       # Update Prettier Badge

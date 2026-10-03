@@ -36,11 +36,15 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
       - name: Install Playwright
         run: pnpm exec playwright install --with-deps
 
+      - name: Run unit testing
+        run: pnpm vitest
+
       - name: Run browser testing
-        run: pnpm test
+        run: pnpm playwright test
 
   build:
     needs: test

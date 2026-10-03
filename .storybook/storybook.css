@@ -1,0 +1,3 @@
+/* What an application's index.css does, for the stories. */
+@import "tailwindcss";
+@import "../src/theme.css";

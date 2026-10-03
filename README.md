@@ -1,19 +1,33 @@
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset=".github/assets/leo-dark.svg">
-    <img src=".github/assets/leo-light.svg" height="64" alt="Leo">
+    <img src=".github/assets/leo-light.svg" height="96" alt="Leo">
   </picture>
 </p>
 
-<p align="center">The Roola design system: Material 3 for every Roola application.</p>
+<h3 align="center">The Roola design system</h3>
+
+<p align="center">Material 3 primitives, the composites every Roola application shares, and the theme they are drawn in.</p>
 
 <p align="center">
+  <img src="https://img.shields.io/badge/@roola/leo-0.1.0-5C6ECD" alt="@roola/leo 0.1.0">
   <img src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black" alt="React 19">
   <img src="https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white" alt="TypeScript 5.9">
   <img src="https://img.shields.io/badge/Tailwind-4-06B6D4?logo=tailwindcss&logoColor=white" alt="Tailwind 4">
   <img src="https://img.shields.io/badge/Storybook-10-FF4785?logo=storybook&logoColor=white" alt="Storybook 10">
   <img src="https://img.shields.io/badge/Material-3-757575?logo=materialdesign&logoColor=white" alt="Material 3">
 </p>
+
+<p align="center">
+  <a href="#whats-here">What's here</a> ·
+  <a href="#using-it-from-an-application">Using it</a> ·
+  <a href="#translation">Translation</a> ·
+  <a href="#working-on-it">Working on it</a>
+</p>
+
+```tsx
+import { Button, Card, CardBody, Field } from "@roola/leo";
+```
 
 Leo is the Roola design system: the Material 3 primitives and the handful of
 composites every Roola application shares, as one React library, plus the
@@ -29,21 +43,23 @@ Built with **TypeScript**, **React 19**, **Tailwind 4** and **Storybook**;
 consumed as source, so an application compiles what it uses and nothing has to
 be published or rebuilt to pick up a change.
 
-## What is here
+## What's here
 
 | Kind | Components |
 | --- | --- |
 | Primitives | `Alert` `Avatar` `Badge` `Button` `Card` (`CardHeader`, `CardBody`) `Chip` `Field` `Icon` `IconButton` `LanguageSelect` `Menu` (`MenuItem`, `MenuLabel`, `MenuSeparator`) `Select` `Skeleton` `Spinner` `TextArea` `ThemeToggle` |
-| Composites | `AppsMenu` — the launcher for every Roola application; `UserMenu` — the account menu in the app bar; `VerificationToast` — the identity check a support agent raises during a call; `ReportDialog` — telling us something is wrong with a thing |
-| Hooks | `useScrolled` `useLocalePreference` `useFormatters` `useLeoTranslations` |
+| Figures | `Chart` — a time series as a line or bars, hand-drawn SVG; `Stat` — one headline figure with its note and a sparkline |
+| Panels | `PanelSurface` `PanelTopLine` `PanelGroup` — the panel that drops from the app bar, under the account menu and the launcher |
+| Composites | `AppsMenu` — the launcher for every Roola application; `UserMenu` — the account menu in the app bar; `VerificationToast` — the identity check a support agent raises during a call; `ReportDialog` — telling us something is wrong with a thing; `WaitingList` and `PlatformGate` — what a platform's door says while it is closed; `PushSwitch` — the switch for notifications, with its sentence |
+| Hooks | `useScrolled` `useLocalePreference` `useFormatters` `useLeoTranslations` `usePush` |
 | Translation | `LocaleProvider` `createTranslations` — see below |
 | Utilities | `cn` |
 | Theme | `theme.css` — the M3 colour roles in light and dark, the shape scale, the type |
 
 What is deliberately *not* here: a product's mark, its feature components, and
 anything whose look is a decision that product made for itself rather than one
-the estate made once. Helix keeps those in [Spiral](../../helix/spiral/), built
-on Leo; Politicise keeps its own primitives in [Libra](../../politicise/libra/),
+the estate made once. Helix keeps those in [Spiral](https://github.com/HelixTube/Spiral), built
+on Leo; Politicise keeps its own primitives in [Libra](https://github.com/Politicise/Libra),
 which takes only Leo's translation machinery.
 
 ## Using it from an application
@@ -78,10 +94,6 @@ resolve: {
 
 `theme.css` carries its own `@source` for the components, so Tailwind generates
 their classes without the application knowing where the package lives.
-
-```tsx
-import { Button, Card, CardBody, Field } from "@roola/leo";
-```
 
 ## Translation
 

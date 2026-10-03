@@ -1,47 +1,75 @@
-import type { ButtonProps as AriaButtonProps } from "react-aria-components";
-import { Button as AriaButton } from "react-aria-components";
-import { cn } from "@/tools/styles";
-import { cva, type VariantProps } from "class-variance-authority";
+import type { ButtonHTMLAttributes, ReactNode } from "react";
+import { cn } from "../../cn";
 
-const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
-  {
-    variants: {
-      variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
-      },
-      size: {
-        default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-md px-3",
-        lg: "h-11 rounded-md px-8",
-        icon: "h-10 w-10",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
-  },
-);
+/**
+ * Material 3 button variants, in descending order of emphasis. Having them named
+ * by emphasis rather than by colour is what keeps one primary action per view.
+ */
+type Variant = "filled" | "tonal" | "outlined" | "text";
 
-export interface ButtonProps
-  extends AriaButtonProps, VariantProps<typeof buttonVariants> {
-  className?: string;
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: Variant;
+  loading?: boolean;
+  icon?: ReactNode;
+  children: ReactNode;
 }
 
-export const Button = ({ className, variant, size, ...props }: ButtonProps) => {
-  return (
-    <AriaButton
-      className={cn(buttonVariants({ variant, size, className }))}
-      {...props}
-    />
-  );
+const variants: Record<Variant, string> = {
+  filled: "bg-primary text-on-primary hover:brightness-110 active:brightness-95",
+  tonal:
+    "bg-secondary-container text-on-secondary-container hover:brightness-105 active:brightness-95",
+  outlined:
+    "border border-outline text-primary hover:bg-primary/8 active:bg-primary/12",
+  text: "text-primary hover:bg-primary/8 active:bg-primary/12",
 };
+
+export function Button({
+  variant = "filled",
+  loading = false,
+  icon,
+  className,
+  disabled,
+  children,
+  ...props
+}: ButtonProps) {
+  return (
+    <button
+      // A button mid-request must not be clickable again, so `loading` disables
+      // it rather than only changing how it looks.
+      disabled={disabled || loading}
+      aria-busy={loading}
+      className={cn(
+        // Fully rounded, 40px tall: the M3 button shape.
+        "inline-flex h-10 items-center justify-center gap-2 rounded-full px-6",
+        "text-sm font-medium tracking-[0.00714em] transition-all",
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+        "disabled:pointer-events-none disabled:opacity-38",
+        variants[variant],
+        className,
+      )}
+      {...props}
+    >
+      {loading ? (
+        <svg className="size-4 shrink-0 animate-spin" viewBox="0 0 24 24" aria-hidden="true">
+          <circle
+            className="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            strokeWidth="4"
+            fill="none"
+          />
+          <path
+            className="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.4 0 0 5.4 0 12h4z"
+          />
+        </svg>
+      ) : (
+        icon
+      )}
+      {children}
+    </button>
+  );
+}

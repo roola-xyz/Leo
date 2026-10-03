@@ -1,17 +1,21 @@
 import type { StorybookConfig } from "@storybook/react-vite";
 
 const config: StorybookConfig = {
-  stories: [`../src/**/*.stories.@(js|jsx|mjs|ts|tsx)`],
+  stories: ["../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
   addons: [
-    `@storybook/addon-docs`,
-    `@storybook/addon-a11y`,
-    `@storybook/addon-vitest`,
-    `@storybook-community/storybook-dark-mode`,
+    "@storybook/addon-docs",
+    "@storybook/addon-a11y",
+    "@storybook/addon-vitest",
+    "@storybook-community/storybook-dark-mode",
   ],
-  framework: `@storybook/react-vite`,
-  // viteFinal: async (config) => {
-  //   config.base = "/leo/";
-  //   return config;
-  // },
+  framework: {
+    name: "@storybook/react-vite",
+    options: {
+      builder: {
+        viteConfigPath: "./vite.config.ts",
+      },
+    },
+  },
 };
+
 export default config;

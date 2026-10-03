@@ -1,0 +1,255 @@
+/*
+ * The Roola design system: Material Design 3 colour roles, the shape scale, and
+ * the estate's type. Every application imports this once, after Tailwind:
+ *
+ *   @import "tailwindcss";
+ *   @import "@roola/leo/theme.css";
+ *
+ * and then adds whatever is its own — a different source colour, a print
+ * stylesheet — underneath. Redeclaring a token on :root after the import wins,
+ * because it comes later in the cascade at the same specificity, so an
+ * application never edits this file to get a different primary.
+ */
+
+/*
+ * Tailwind 4 finds source files on its own, but deliberately skips node_modules
+ * — and this package reaches an application as a link inside it. Without this
+ * line none of the components' classes are generated and every Button, Field
+ * and Card renders unstyled. Relative to this file, so no application has to
+ * know where the package lives.
+ */
+@source "./components";
+
+/*
+ * Dark mode is driven by a class we set on <html> rather than by
+ * prefers-color-scheme alone, because a stored preference has to be able to
+ * override the operating system and a media query cannot be overridden.
+ * "system" is resolved to one of the two in JavaScript (see hooks/useTheme).
+ */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * ---------------------------------------------------------------------------
+ * Material Design 3 colour roles
+ * ---------------------------------------------------------------------------
+ *
+ * Components never name a colour. They reference a *role* — primary, surface,
+ * on-surface-variant — and the role resolves to a different value in light and
+ * dark. That is what makes one set of components work in both themes without a
+ * single `dark:` override inside them.
+ *
+ * The two-layer indirection is deliberate: Tailwind's @theme is static, so the
+ * theme maps each utility to a var() that :root and .dark redefine underneath.
+ * Values are Material 3's baseline scheme with royal purple as the source colour.
+ *
+ * The second selector on each block, `.surface-scheme`, is the escape hatch for
+ * chrome. A fixed header floating over a dark hero redefines these roles for
+ * its own subtree so its controls read against the band; a menu panel opened
+ * from it is a solid surface again and must read as one, so it carries this
+ * class and the tokens are re-declared on it, nearer than the header's
+ * overrides. An application that has no such header never needs it.
+ */
+
+:root,
+.surface-scheme {
+  /*
+   * Told to the browser as well as to the tokens: the list a <select> drops
+   * down, scrollbars, date pickers and checkboxes are drawn by the browser
+   * from color-scheme, not from any token, and a dark page without it opens
+   * white dropdowns.
+   */
+  color-scheme: light;
+  --md-primary: #5b3bbd;
+  --md-on-primary: #ffffff;
+  --md-primary-container: #e6ddff;
+  --md-on-primary-container: #1e0060;
+
+  --md-secondary-container: #e9eef6;
+  --md-on-secondary-container: #1f1f1f;
+
+  /* Surfaces step up in tint, not in shadow — M3 signals depth with tone. */
+  --md-surface: #ffffff;
+  --md-surface-container-low: #f8fafd;
+  --md-surface-container: #f0f4f9;
+  --md-surface-container-high: #e9eef6;
+
+  --md-on-surface: #1f1f1f;
+  --md-on-surface-variant: #444746;
+
+  --md-outline: #747775;
+  --md-outline-variant: #c4c7c5;
+
+  --md-error: #b3261e;
+  --md-on-error: #ffffff;
+  --md-error-container: #fce8e6;
+  --md-on-error-container: #410e0b;
+
+  --md-success: #146c2e;
+  --md-success-container: #e6f4ea;
+  --md-on-success-container: #072711;
+
+  --md-warning: #8f5000;
+  --md-warning-container: #fdf1dc;
+  --md-on-warning-container: #3b2200;
+
+  /* What a dialog dims the page with. Black in both schemes: a scrim is a
+     shadow, and a shadow does not get lighter in the dark. */
+  --md-scrim: #000000;
+}
+
+.dark,
+.dark .surface-scheme {
+  color-scheme: dark;
+  --md-primary: #cdbdff;
+  --md-on-primary: #331b6e;
+  --md-primary-container: #4a2aa6;
+  --md-on-primary-container: #e6ddff;
+
+  --md-secondary-container: #282a2c;
+  --md-on-secondary-container: #e3e3e3;
+
+  --md-surface: #131314;
+  --md-surface-container-low: #1b1b1b;
+  --md-surface-container: #1e1f20;
+  --md-surface-container-high: #282a2c;
+
+  --md-on-surface: #e3e3e3;
+  --md-on-surface-variant: #c4c7c5;
+
+  --md-outline: #8e918f;
+  --md-outline-variant: #444746;
+
+  --md-error: #f2b8b5;
+  --md-on-error: #601410;
+  --md-error-container: #472322;
+  --md-on-error-container: #f9dedc;
+
+  --md-success: #6dd58c;
+  --md-success-container: #0a3818;
+  --md-on-success-container: #c4eed0;
+
+  --md-warning: #ffb95c;
+  --md-warning-container: #4a2800;
+  --md-on-warning-container: #ffddb3;
+
+  --md-scrim: #000000;
+}
+
+@theme inline {
+  --color-primary: var(--md-primary);
+  --color-on-primary: var(--md-on-primary);
+  --color-primary-container: var(--md-primary-container);
+  --color-on-primary-container: var(--md-on-primary-container);
+
+  --color-secondary-container: var(--md-secondary-container);
+  --color-on-secondary-container: var(--md-on-secondary-container);
+
+  --color-surface: var(--md-surface);
+  --color-surface-low: var(--md-surface-container-low);
+  --color-surface-container: var(--md-surface-container);
+  --color-surface-high: var(--md-surface-container-high);
+
+  --color-on-surface: var(--md-on-surface);
+  --color-on-surface-variant: var(--md-on-surface-variant);
+
+  --color-outline: var(--md-outline);
+  --color-outline-variant: var(--md-outline-variant);
+
+  --color-error: var(--md-error);
+  --color-on-error: var(--md-on-error);
+  --color-error-container: var(--md-error-container);
+  --color-on-error-container: var(--md-on-error-container);
+
+  --color-success: var(--md-success);
+  --color-success-container: var(--md-success-container);
+  --color-on-success-container: var(--md-on-success-container);
+
+  --color-warning: var(--md-warning);
+  --color-warning-container: var(--md-warning-container);
+  --color-on-warning-container: var(--md-on-warning-container);
+
+  --color-scrim: var(--md-scrim);
+
+  /*
+   * Google Sans is not distributed publicly, so Roboto leads and the system UI
+   * font follows. No webfont is fetched: a blocking font request to render a
+   * sign-in form is a poor trade, some of these have to work offline in a
+   * Capacitor shell, and a page that promises to record nothing about a visit
+   * should not be arranging for a third party to be told about it either.
+   */
+  --font-sans: Roboto, "Helvetica Neue", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+}
+
+/*
+ * M3 asks for generous corner radii; these are the two that come up repeatedly.
+ * Buttons are fully rounded and use rounded-full directly.
+ */
+@utility rounded-card {
+  border-radius: 1.75rem;
+}
+
+@utility rounded-field {
+  border-radius: 0.75rem;
+}
+
+body {
+  background-color: var(--md-surface-container-low);
+  color: var(--md-on-surface);
+  font-family: Roboto, "Helvetica Neue", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/*
+ * ---------------------------------------------------------------------------
+ * Motion
+ * ---------------------------------------------------------------------------
+ *
+ * The few movements Leo's own composites make, declared as theme animations
+ * so they arrive as utilities — `animate-arrive` and so on. Every use is
+ * gated with `motion-safe:` at the call site, so somebody who has asked their
+ * system for less movement gets a still page with the same content in it.
+ */
+@theme {
+  /* Something settling into place on arrival. */
+  --animate-arrive: arrive 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+
+  /* A soft light drifting behind a page, on two different clocks so the two
+     never fall into step. */
+  --animate-drift: drift 18s ease-in-out infinite;
+  --animate-drift-slow: drift 26s ease-in-out infinite reverse;
+
+  /* A stroke drawing itself: the path carries pathLength="1". */
+  --animate-draw: draw 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) 0.15s both;
+
+  @keyframes arrive {
+    from {
+      opacity: 0;
+      transform: translateY(1rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes drift {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(4rem, 3rem) scale(1.1);
+    }
+  }
+
+  @keyframes draw {
+    from {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+    }
+    to {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 0;
+    }
+  }
+}
