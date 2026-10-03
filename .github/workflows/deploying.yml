@@ -72,7 +72,10 @@ jobs:
         uses: actions/configure-pages@v5
 
       - name: Point the docs at their path
-        run: printf 'baseurl: "%s/docs"\n' "${{ steps.pages.outputs.base_path }}" >> docs/_config.yml
+        env:
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
+        run: |
+          printf 'baseurl: "%s/docs"\n' "$BASE_PATH" >> docs/_config.yml
 
       - name: Build the docs
         uses: actions/jekyll-build-pages@v1
