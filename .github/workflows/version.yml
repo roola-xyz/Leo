@@ -47,8 +47,8 @@ jobs:
         run: |
           LEO_VERSION=$(node -p "require('./package.json').version")
           echo "Updating README.md with version: $LEO_VERSION"
-          sed -i -E "s#(!\[Version\]\(https://img.shields.io/badge/Version-)[0-9]+\.[0-9]+\.[0-9]+(-blue\))#\1${LEO_VERSION}\2#g" README.md
-          sed -i -E "s#(!\[Version\]\(https://img.shields.io/badge/Version-)[0-9]+\.[0-9]+\.[0-9]+(-blue\))#\1${LEO_VERSION}\2#g" CONTRIBUTING.md
+          sed -i -E "s#(img.shields.io/badge/Version-)[0-9]+\.[0-9]+\.[0-9]+(-blue)#\1${LEO_VERSION}\2#g" README.md
+          sed -i -E "s#(img.shields.io/badge/Version-)[0-9]+\.[0-9]+\.[0-9]+(-blue)#\1${LEO_VERSION}\2#g" CONTRIBUTING.md
           echo "Updated README.md and CONTRIBUTING.md: $LEO_VERSION"
 
       # 4️⃣ Update version badge in README.md

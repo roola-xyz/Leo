@@ -5,17 +5,17 @@
   </picture>
 </p>
 
-![Version](https://img.shields.io/badge/Version-0.1.0-blue)
-![React 19](https://img.shields.io/badge/Library-React_19-informational?style=flat&logo=react&color=61DAFB)
-![TypeScript 5.9](https://img.shields.io/badge/Code-TypeScript_5.9-informational?style=flat&logo=typescript&color=3178C6)
-![Tailwind 4](https://img.shields.io/badge/Styling-Tailwind_4-informational?style=flat&logo=tailwindcss&color=06B6D4)
-![Material 3](https://img.shields.io/badge/Design-Material_3-informational?style=flat&logo=materialdesign&color=757575)
-[![Storybook](https://img.shields.io/badge/Docs-Storybook-informational?style=flat&logo=storybook&color=FF4785)](https://roola-xyz.github.io/Leo/)
+<h2 align="center">
+  <img src="https://img.shields.io/badge/Version-0.1.0-blue" alt="Version">&nbsp;
+  <a href="https://react.dev/" target="_blank"><img src="https://img.shields.io/badge/React-v19-61DAFB?style=flat&logo=react&logoColor=white" alt="React"></a>&nbsp;
+  <a href="https://www.typescriptlang.org/" target="_blank"><img src="https://img.shields.io/badge/TypeScript-v5.9-3178C6?style=flat&logo=typescript&logoColor=white" alt="TypeScript"></a>&nbsp;
+  <a href="https://tailwindcss.com/" target="_blank"><img src="https://img.shields.io/badge/Tailwind-v4-06B6D4?style=flat&logo=tailwindcss&logoColor=white" alt="Tailwind"></a>&nbsp;
+  <a href="https://m3.material.io/" target="_blank"><img src="https://img.shields.io/badge/Material-v3-757575?style=flat&logo=materialdesign&logoColor=white" alt="Material"></a>&nbsp;
+  <a href="https://roola-xyz.github.io/Leo/" target="_blank"><img src="https://img.shields.io/badge/Storybook-live-FF4785?style=flat&logo=storybook&logoColor=white" alt="Storybook"></a>&nbsp;
+  <br>&nbsp;
+</h2>
 
-# Leo
-
-The Roola design system: Material 3 primitives, the composites every Roola
-application shares, and the theme they are drawn in.
+**Leo** — The Roola design system: Material 3 primitives, the composites every Roola application shares, and the theme they are drawn in.
 
 ```tsx
 import { Button, Card, CardBody, Field } from "@roola/leo";
@@ -31,7 +31,20 @@ Built with **TypeScript**, **React 19**, **Tailwind 4** and **Storybook**;
 consumed as source, so an application compiles what it uses and nothing has to
 be published or rebuilt to pick up a change.
 
-## What's here
+<p align="center">
+  🧱&nbsp;<a href="#-whats-here">What's here</a> ·
+  🧭&nbsp;<a href="#-using-it-from-an-application">Using it from an application</a> ·
+  🌍&nbsp;<a href="#-translation">Translation</a> ·
+  🧭&nbsp;<a href="#-working-on-it">Working on it</a>
+</p>
+
+<p align="center">
+  📜&nbsp;<a href="#-licence">Licence</a>
+</p>
+
+<br><br>
+
+## 🧱 What's here
 
 | Kind | Components |
 | --- | --- |
@@ -50,7 +63,9 @@ the estate made once. Helix keeps those in [Spiral](https://github.com/HelixTube
 on Leo; Politicise keeps its own primitives in [Libra](https://github.com/Politicise/Libra),
 which takes only Leo's translation machinery.
 
-## Using it from an application
+<br><br>
+
+## 🧭 Using it from an application
 
 Each application's frontend is its own pnpm workspace, so Leo is linked rather
 than depended on by version:
@@ -83,7 +98,9 @@ resolve: {
 `theme.css` carries its own `@source` for the components, so Tailwind generates
 their classes without the application knowing where the package lives.
 
-## Translation
+<br><br>
+
+## 🌍 Translation
 
 Every Roola site is offered in the twelve languages of `LANGUAGES`, and the
 preference is one preference, saved to the account and cached under
@@ -126,7 +143,9 @@ should carry, which is how a validation message comes back in the language of
 the form it is about. Leo's own composites — the account menu, the report
 dialog, the waiting list — read the same locale and need no wiring.
 
-## Working on it
+<br><br>
+
+## 🧭 Working on it
 
 ```bash
 pnpm install
@@ -143,6 +162,26 @@ tests.
 Components use relative imports only — an application's TypeScript resolves
 Leo's files through the link, and would not know what `@/` means.
 
-## Licence
+<br><br>
+
+## 📜 Licence
 
 MIT. Security issues to ijeffrouk@gmail.com, please, rather than an issue.
+
+<br><br>
+
+<p>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".github/assets/divider-dark.svg">
+    <img src=".github/assets/divider-light.svg" alt="" width="100%" height="1">
+  </picture>
+</p>
+
+<div align="right">
+  <img src=".github/assets/roola-mark.svg" alt="Roola" width="48" height="48" align="left">
+  <sub><a href="https://github.com/roola-xyz/Estate" target="_blank">Roola Estate</a> · <a href="https://github.com/roola-xyz/Estate/blob/main/ARCHITECTURE.md" target="_blank">Architecture</a> · <a href="https://github.com/roola-xyz" target="_blank">roola-xyz</a></sub>
+  <br>
+  <sub><a href="https://github.com/roola-xyz/leo" target="_blank">roola-xyz/leo</a></sub>
+  <br clear="left">
+  <div align="left"><sub>© 2026 Roola.</sub></div>
+</div>
