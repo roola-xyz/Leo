@@ -55,15 +55,15 @@ This guide outlines how to contribute effectively, including branching strategy,
 
 [![Pnpm](https://img.shields.io/badge/Pnpm-v10.26.0-informational?style=flat&logo=pnpm&color=F9AD00)](https://pnpm.io/)
 [![npm](https://img.shields.io/badge/npm-v10.8.2-informational?style=flat&logo=npm&color=CC3534)](https://pnpm.io/)
-[![Node.js](https://img.shields.io/badge/Node.js-v20.19.6-informational?style=flat&logo=nodedotjs&color=3c873a)](https://nodejs.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-v20.20.2-informational?style=flat&logo=nodedotjs&color=3c873a)](https://nodejs.org/)
 [![Vite](https://img.shields.io/badge/Vite-v7.2.6-informational?style=flat&logo=vite&color=646CFF)](https://vitejs.dev/)
 [![Vitest](https://img.shields.io/badge/Vitest-v4.0.15-informational?style=flat&logo=vite&color=646CFF)](https://vitest.dev/)
 [![Storybook](https://img.shields.io/badge/Storybook-v10.1.4-FF4785?style=flat&logo=storybook&logoColor=FF4785)](https://storybook.js.org/)
 [![TypeScript](https://img.shields.io/badge/Typescript-v5.9.3-informational?style=flat&logo=typescript&color=3178c6)](https://www.typescriptlang.org/)
 [![React.js](https://img.shields.io/badge/React.js-v18.3.1-61DAFB?logo=react&logoColor=white)](https://reactjs.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-v4.1.17-38B2AC?style=flat&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![Prettier](https://img.shields.io/badge/Prettier-v3.7.4-F7B93E?style=flat&logo=prettier&logoColor=white)](https://prettier.io/)
-[![ESLint](https://img.shields.io/badge/ESLint-v9.39.2-4B32C3?style=flat&logo=eslint&logoColor=white)](https://eslint.org/)
+[![Prettier](https://img.shields.io/badge/Prettier-v3.9.9-F7B93E?style=flat&logo=prettier&logoColor=white)](https://prettier.io/)
+[![ESLint](https://img.shields.io/badge/ESLint-v10.12.0-4B32C3?style=flat&logo=eslint&logoColor=white)](https://eslint.org/)
 
 
 - 1️⃣ [Prerequisites](#prerequisites)  

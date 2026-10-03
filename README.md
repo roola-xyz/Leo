@@ -10,13 +10,16 @@
 <p align="center">Material 3 primitives, the composites every Roola application shares, and the theme they are drawn in.</p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/@roola/leo-0.1.0-5C6ECD" alt="@roola/leo 0.1.0">
-  <img src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black" alt="React 19">
-  <img src="https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white" alt="TypeScript 5.9">
-  <img src="https://img.shields.io/badge/Tailwind-4-06B6D4?logo=tailwindcss&logoColor=white" alt="Tailwind 4">
-  <img src="https://img.shields.io/badge/Storybook-10-FF4785?logo=storybook&logoColor=white" alt="Storybook 10">
-  <img src="https://img.shields.io/badge/Material-3-757575?logo=materialdesign&logoColor=white" alt="Material 3">
+  <a href="https://roola-xyz.github.io/Leo/">Storybook</a> ·
+  <a href="https://github.com/roola-xyz/Estate">The estate</a>
 </p>
+
+![Version](https://img.shields.io/badge/Version-0.1.0-blue)
+[![Storybook](https://img.shields.io/badge/Storybook-Live-FF4785?logo=storybook)](https://roola-xyz.github.io/Leo/)
+![React 19](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
+![TypeScript 5.9](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)
+![Tailwind 4](https://img.shields.io/badge/Tailwind-4-06B6D4?logo=tailwindcss&logoColor=white)
+![Material 3](https://img.shields.io/badge/Material-3-757575?logo=materialdesign&logoColor=white)
 
 <p align="center">
   <a href="#whats-here">What's here</a> ·
