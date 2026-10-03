@@ -1,81 +1,154 @@
-# Leo <img src="https://raw.githubusercontent.com/AtomixPlus/Leo/refs/heads/main/src/assets/leo.png" width="100" height="150"/> 
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".github/assets/leo-dark.svg">
+    <img src=".github/assets/leo-light.svg" height="64" alt="Leo">
+  </picture>
+</p>
 
-![Version](https://img.shields.io/badge/Version-0.0.4-blue)
-[![Storybook](https://img.shields.io/badge/Storybook-Live-FF4785?logo=storybook)](https://atomixplus.github.io/Leo/) 
-![Code_Coverage](https://img.shields.io/badge/Code_Coverage-100%25-brightgreen)
-[![Testing](https://github.com/AtomixPlus/Leo/actions/workflows/testing.yml/badge.svg)](https://github.com/AtomixPlus/Leo/actions/workflows/coverage.yml?branch=main)
-[![Linting](https://github.com/AtomixPlus/Leo/actions/workflows/linting.yml/badge.svg)](https://github.com/AtomixPlus/Leo/actions/workflows/linting.yml?branch=main)
-[![Building](https://github.com/AtomixPlus/Leo/actions/workflows/building.yml/badge.svg)](https://github.com/AtomixPlus/Leo/actions/workflows/building.yml?branch=main)
-[![Deploying](https://github.com/AtomixPlus/Leo/actions/workflows/deploying.yml/badge.svg)](https://github.com/AtomixPlus/Leo/actions/workflows/deploying.yml?branch=main)
- 
+<p align="center">The Roola design system: Material 3 for every Roola application.</p>
 
-Leo is a high-performance React <a href="https://atomixplus.github.io/Leo/" target="_blank" rel="noopener noreferrer">component library</a> built with **TypeScript**, **Vite**, **Node.js**, and **Tailwind CSS**. Designed for modern workflows, every component is fully typed, tree-shakeable, and optimized for fast builds.
+<p align="center">
+  <img src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black" alt="React 19">
+  <img src="https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white" alt="TypeScript 5.9">
+  <img src="https://img.shields.io/badge/Tailwind-4-06B6D4?logo=tailwindcss&logoColor=white" alt="Tailwind 4">
+  <img src="https://img.shields.io/badge/Storybook-10-FF4785?logo=storybook&logoColor=white" alt="Storybook 10">
+  <img src="https://img.shields.io/badge/Material-3-757575?logo=materialdesign&logoColor=white" alt="Material 3">
+</p>
 
-With **Vitest** and **React Testing Library**, components are reliable and production-ready, while **Tailwind CSS** ensures rapid, flexible styling. **Storybook** provides interactive documentation and visual testing, making it easy to explore and integrate components.
+Leo is the Roola design system: the Material 3 primitives and the handful of
+composites every Roola application shares, as one React library, plus the
+theme they are styled from.
 
-Leo offers a fast, scalable, and flexible UI foundation for modern React projects—built to empower developers and inspire innovative solutions.
+Every application in the estate — accounts, cloud, control, support, policies,
+helix, socialise — used to carry its own copy of these under
+`frontend/packages/ui`. They were byte-for-byte identical, and the parts that
+were not had drifted by accident rather than on purpose. This package is those
+components, once.
 
-<br/>
+Built with **TypeScript**, **React 19**, **Tailwind 4** and **Storybook**;
+consumed as source, so an application compiles what it uses and nothing has to
+be published or rebuilt to pick up a change.
 
+## What is here
 
-# 💻 Installation
-[![Pnpm](https://img.shields.io/badge/Pnpm-v10.26.0-informational?style=flat&logo=pnpm&color=F9AD00)](https://pnpm.io/)
-[![npm](https://img.shields.io/badge/npm-v10.8.2-informational?style=flat&logo=npm&color=CC3534)](https://pnpm.io/)
-[![Node.js](https://img.shields.io/badge/Node.js-v20.19.6-informational?style=flat&logo=nodedotjs&color=3c873a)](https://nodejs.org/)
-[![Vite](https://img.shields.io/badge/Vite-v7.2.6-informational?style=flat&logo=vite&color=646CFF)](https://vitejs.dev/)
-[![Vitest](https://img.shields.io/badge/Vitest-v4.0.15-informational?style=flat&logo=vite&color=646CFF)](https://vitest.dev/)
-[![Storybook](https://img.shields.io/badge/Storybook-v10.1.4-FF4785?style=flat&logo=storybook&logoColor=FF4785)](https://storybook.js.org/)
-[![TypeScript](https://img.shields.io/badge/Typescript-v5.9.3-informational?style=flat&logo=typescript&color=3178c6)](https://www.typescriptlang.org/)
-[![React.js](https://img.shields.io/badge/React.js-v18.3.1-61DAFB?logo=react&logoColor=white)](https://reactjs.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-v4.1.17-38B2AC?style=flat&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![Prettier](https://img.shields.io/badge/Prettier-v3.7.4-F7B93E?style=flat&logo=prettier&logoColor=white)](https://prettier.io/)
-[![ESLint](https://img.shields.io/badge/ESLint-v9.39.2-4B32C3?style=flat&logo=eslint&logoColor=white)](https://eslint.org/)
+| Kind | Components |
+| --- | --- |
+| Primitives | `Alert` `Avatar` `Badge` `Button` `Card` (`CardHeader`, `CardBody`) `Chip` `Field` `Icon` `IconButton` `LanguageSelect` `Menu` (`MenuItem`, `MenuLabel`, `MenuSeparator`) `Select` `Skeleton` `Spinner` `TextArea` `ThemeToggle` |
+| Composites | `AppsMenu` — the launcher for every Roola application; `UserMenu` — the account menu in the app bar; `VerificationToast` — the identity check a support agent raises during a call; `ReportDialog` — telling us something is wrong with a thing |
+| Hooks | `useScrolled` `useLocalePreference` `useFormatters` `useLeoTranslations` |
+| Translation | `LocaleProvider` `createTranslations` — see below |
+| Utilities | `cn` |
+| Theme | `theme.css` — the M3 colour roles in light and dark, the shape scale, the type |
 
-You can install this library in your projects using `pnpm`, `npm`, or `yarn`. Make sure your package registry is correctly configured if using a private registry, or install directly from a public registry or local path.
+What is deliberately *not* here: a product's mark, its feature components, and
+anything whose look is a decision that product made for itself rather than one
+the estate made once. Helix keeps those in [Spiral](../../helix/spiral/), built
+on Leo; Politicise keeps its own primitives in [Libra](../../politicise/libra/),
+which takes only Leo's translation machinery.
+
+## Using it from an application
+
+Each application's frontend is its own pnpm workspace, so Leo is linked rather
+than depended on by version:
+
+```jsonc
+// platform/<app>/package.json
+"dependencies": {
+  "@roola/leo": "link:../../../../../packages/roola/leo"
+}
+```
+
+```ts
+// vite.config.ts — Leo is a link with its own node_modules; without this its
+// components would import a second React and every hook in them would throw.
+resolve: {
+  dedupe: ["react", "react-dom"],
+},
+```
+
+```css
+/* src/index.css */
+@import "tailwindcss";
+@import "@roola/leo/theme.css";
+
+/* Anything the application changes goes underneath: a later declaration on
+   :root wins at the same specificity, so redefine --md-primary here rather
+   than editing the theme. */
+```
+
+`theme.css` carries its own `@source` for the components, so Tailwind generates
+their classes without the application knowing where the package lives.
+
+```tsx
+import { Button, Card, CardBody, Field } from "@roola/leo";
+```
+
+## Translation
+
+Every Roola site is offered in the twelve languages of `LANGUAGES`, and the
+preference is one preference, saved to the account and cached under
+`roola.locale` in every browser. Leo carries the machinery once; each
+application carries its own words.
+
+```ts
+// src/i18n.ts — the catalogue, English as the type, the rest on demand
+import { createTranslations } from "@roola/leo";
+import en from "./locales/en";
+
+export const { I18nProvider, useTranslations, translate } = createTranslations({
+  en,
+  es: () => import("./locales/es"),
+  fr: () => import("./locales/fr"),
+  // … one loader per language in LANGUAGES
+});
+```
+
+```tsx
+// src/main.tsx — once, at the root; it holds the LocaleProvider too
+<I18nProvider>
+  <App />
+</I18nProvider>
+
+// anywhere under it
+const { t, rich, date, number } = useTranslations();
+<h1>{t("home.title")}</h1>
+<p>{rich("home.intro", { link: (chunks) => <Link to="/help">{chunks}</Link> })}</p>
+<time>{date(post.created_at)}</time>
+```
+
+Messages are an ICU subset — `{name}`, `{count, plural, one {…} other {…}}`,
+`{kind, select, …}` and `<tag>…</tag>` — formatted by `Intl`, so plural rules
+and number shapes come from the locale rather than from anybody's memory. A
+translation file is typed against English, so a missing key does not compile.
+
+`localeHeaders()` gives the `Accept-Language` every request to a Roola backend
+should carry, which is how a validation message comes back in the language of
+the form it is about. Leo's own composites — the account menu, the report
+dialog, the waiting list — read the same locale and need no wiring.
+
+## Working on it
 
 ```bash
-pnpm i @vortz/leo
+pnpm install
+pnpm storybook        # every component, light and dark, at :6006
+pnpm check-types
+pnpm test             # vitest: unit, and the stories in a browser
+pnpm build            # a bundle, for use outside the monorepo
 ```
-<br/>
 
+Every component has a `*.stories.tsx` beside it. Add one with the component;
+the stories are the documentation and, through `@storybook/addon-vitest`, the
+tests.
 
-# 🐞 Creating Issues [![Open Issues](https://img.shields.io/github/issues/AtomixPlus/Leo.svg?style=flat&color=red)](https://github.com/AtomixPlus/Leo/issues) [![Closed Issues](https://img.shields.io/github/issues-closed/AtomixPlus/Leo.svg?style=flat&color=green)](https://github.com/AtomixPlus/Leo/issues?q=is%3Aissue+is%3Aclosed)
+Components use relative imports only — an application's TypeScript resolves
+Leo's files through the link, and would not know what `@/` means.
 
-If you find a bug or have a feature request:
+## Security
 
-1. Check existing issues to avoid duplicates.
-2. Click “New issue” in the Issues tab.
-3. Fill in details: steps to reproduce, expected behavior, screenshots, and environment info.
-4. Submit the issue.
+If you discover a security vulnerability within Leo, please send an e-mail to
+Phil Graham via ijeffrouk@gmail.com. All security vulnerabilities will be
+promptly addressed.
 
-💡 Tip: Clear, detailed issues help us resolve them faster!
+## License
 
-<br/>
-
-
-# 🤝 Contributing
-We welcome contributions to improve this component library! Whether you want to add new components, fix bugs, improve documentation, or enhance tests, your help is appreciated. 
-
-Read the [contributing guide](https://github.com/AtomixPlus/Leo?tab=contributing-ov-file) to learn about our development process, how to propose bug fixes and improvements, and how to build and test your changes.
-
-Contributing to Leo is about more than just issues and pull requests! There are many other ways to support Leo beyond contributing to the code base.
-
-<br/>
-
-
-# 🛡 Security
-If you discover a security vulnerability within Leo, please send an e-mail to Phil Graham via ijeffrouk@gmail.com. All security vulnerabilities will be promptly addressed.
-
-<br/>
-
-
-# 📜 License
 MIT License © Vortz
-
-
-
-
-
-
-
-
