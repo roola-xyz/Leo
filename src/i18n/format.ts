@@ -54,16 +54,10 @@ class Parser {
   constructor(private readonly source: string) {}
 
   parse(): Node[] {
-    const nodes = this.nodes(null);
-
-    if (this.position < this.source.length) {
-      // A stray "}" or an unmatched closing tag. Keep the rest as text rather
-      // than throw: a typo in a translation should show a strange sentence,
-      // not a blank screen.
-      nodes.push({ type: "text", value: this.source.slice(this.position) });
-    }
-
-    return nodes;
+    // At the top level nothing ends the run early: a stray "}" or an
+    // unmatched closing tag is read as text, so a typo in a translation shows
+    // a strange sentence rather than a blank screen.
+    return this.nodes(null);
   }
 
   /**

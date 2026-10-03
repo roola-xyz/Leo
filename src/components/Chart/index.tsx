@@ -425,9 +425,17 @@ function scale(series: ChartSeries[]): { step: number; lines: number } {
 
 /** "2026-09-06" as "6 Sep". The year is the same on every tick, so it is dropped. */
 function defaultLabel(label: string): string {
+  // ISO dates only. Date.parse is lenient past the point of use: it reads
+  // "2026" as 1 January and "week 2" as a day in February.
+  if (!/^\d{4}-\d{2}-\d{2}/.test(label)) return label;
+
   const parsed = Date.parse(label);
 
   if (Number.isNaN(parsed)) return label;
 
-  return new Date(parsed).toLocaleDateString(undefined, { day: "numeric", month: "short" });
+  // A bare date is midnight UTC; read it there, or west of Greenwich every
+  // tick is the day before.
+  const timeZone = label.length === 10 ? "UTC" : undefined;
+
+  return new Date(parsed).toLocaleDateString(undefined, { day: "numeric", month: "short", timeZone });
 }

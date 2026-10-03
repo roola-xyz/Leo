@@ -49,18 +49,23 @@ export function VerificationToast({ verification, onApprove, onDeny, onLapse }: 
     // backgrounded tab (where timers are throttled) does not drift into showing
     // time that has already gone.
     const expiresAt = new Date(verification.expires_at).getTime();
+    let timer: ReturnType<typeof setInterval> | undefined;
 
+    /** Whether there is still time left to count down. */
     const tick = () => {
       const left = Math.max(0, Math.round((expiresAt - Date.now()) / 1000));
       setRemaining(left);
 
-      if (left === 0) {
-        onLapse(verification.uid);
-      }
+      if (left > 0) return true;
+
+      // Lapsed once, not once a second for as long as the toast stays up.
+      clearInterval(timer);
+      onLapse(verification.uid);
+
+      return false;
     };
 
-    tick();
-    const timer = setInterval(tick, 1000);
+    if (tick()) timer = setInterval(tick, 1000);
 
     return () => clearInterval(timer);
   }, [verification.uid, verification.expires_at, onLapse]);

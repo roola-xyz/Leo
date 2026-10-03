@@ -5,6 +5,7 @@ import {
   type MouseEvent as ReactMouseEvent,
   type MouseEventHandler,
   type ReactNode,
+  type Ref,
 } from "react";
 import { Icon, type IconName } from "../Icon";
 import type { Theme } from "../ThemeToggle";
@@ -203,7 +204,11 @@ export function UserMenu({
   const container = useRef<HTMLDivElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
   const back = useRef<HTMLButtonElement>(null);
-  const opener = useRef<HTMLButtonElement | null>(null);
+  // The rows that open a view, and which of them was opened last. The row is
+  // found again by name rather than kept: the front of the panel is drawn
+  // afresh on the way back, so the button that was pressed is no longer there.
+  const rows = useRef<Partial<Record<View, HTMLButtonElement | null>>>({});
+  const opened = useRef<View | null>(null);
 
   // Close on a click anywhere else, and on Escape. `mousedown` rather than
   // `click`, so pressing outside dismisses the menu before whatever was under
@@ -243,10 +248,14 @@ export function UserMenu({
   // A view opens with its way back under the keyboard, and going back lands
   // on the row that was opened, so somebody tabbing through is never lost.
   useEffect(() => {
-    if (!open) return;
+    if (!open) {
+      opened.current = null;
+      return;
+    }
 
-    if (view === "home") opener.current?.focus();
-    else back.current?.focus();
+    if (view === "home") {
+      if (opened.current) rows.current[opened.current]?.focus();
+    } else back.current?.focus();
   }, [open, view]);
 
   const close = () => {
@@ -254,8 +263,8 @@ export function UserMenu({
     setView("home");
   };
 
-  const enter = (next: View) => (event: ReactMouseEvent<HTMLButtonElement>) => {
-    opener.current = event.currentTarget;
+  const enter = (next: View) => () => {
+    opened.current = next;
     setView(next);
   };
 
@@ -388,6 +397,9 @@ export function UserMenu({
               <Group>
                 <UserMenuItem
                   icon="palette"
+                  buttonRef={(row) => {
+                    rows.current.appearance = row;
+                  }}
                   onClick={enter("appearance")}
                   value={currentTheme.label}
                   opens
@@ -398,6 +410,9 @@ export function UserMenu({
                 {locale && onLocaleChange && (
                   <UserMenuItem
                     icon="language"
+                    buttonRef={(row) => {
+                      rows.current.language = row;
+                    }}
                     onClick={enter("language")}
                     value={currentLanguage?.endonym ?? locale}
                     opens
@@ -516,6 +531,7 @@ export function UserMenuItem({
   selected,
   opens = false,
   emphasis = false,
+  buttonRef,
   children,
 }: {
   icon?: IconName;
@@ -533,6 +549,8 @@ export function UserMenuItem({
   opens?: boolean;
   /** Drawn a shade heavier: the one row that is about the account itself. */
   emphasis?: boolean;
+  /** The row's button, for the panel to hand focus back to. */
+  buttonRef?: Ref<HTMLButtonElement>;
   children: ReactNode;
 }) {
   const className = cn(
@@ -576,6 +594,7 @@ export function UserMenuItem({
 
   return (
     <button
+      ref={buttonRef}
       type="button"
       role={selected !== undefined ? "radio" : undefined}
       aria-checked={selected}
@@ -625,14 +644,9 @@ function Initials({
 }: {
   name: string;
   image?: string | null;
-  size?: "sm" | "lg" | "xl";
+  size?: "sm" | "xl";
 }) {
-  const dimensions =
-    size === "xl"
-      ? "size-16 text-2xl"
-      : size === "lg"
-        ? "size-10 text-sm"
-        : "size-9 text-sm";
+  const dimensions = size === "xl" ? "size-16 text-2xl" : "size-9 text-sm";
 
   if (image) {
     return (
