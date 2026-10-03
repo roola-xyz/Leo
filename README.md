@@ -1,40 +1,25 @@
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset=".github/assets/leo-dark.svg">
-    <img src=".github/assets/leo-light.svg" height="96" alt="Leo">
+    <img src=".github/assets/leo-light.svg" height="72" alt="Leo">
   </picture>
 </p>
 
-<h3 align="center">The Roola design system</h3>
-
-<p align="center">Material 3 primitives, the composites every Roola application shares, and the theme they are drawn in.</p>
-
-<p align="center">
-  <a href="https://roola-xyz.github.io/Leo/">Storybook</a> ·
-  <a href="https://github.com/roola-xyz/Estate">The estate</a>
-</p>
-
 ![Version](https://img.shields.io/badge/Version-0.1.0-blue)
-[![Storybook](https://img.shields.io/badge/Storybook-Live-FF4785?logo=storybook)](https://roola-xyz.github.io/Leo/)
-![React 19](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
-![TypeScript 5.9](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)
-![Tailwind 4](https://img.shields.io/badge/Tailwind-4-06B6D4?logo=tailwindcss&logoColor=white)
-![Material 3](https://img.shields.io/badge/Material-3-757575?logo=materialdesign&logoColor=white)
+![React 19](https://img.shields.io/badge/Library-React_19-informational?style=flat&logo=react&color=61DAFB)
+![TypeScript 5.9](https://img.shields.io/badge/Code-TypeScript_5.9-informational?style=flat&logo=typescript&color=3178C6)
+![Tailwind 4](https://img.shields.io/badge/Styling-Tailwind_4-informational?style=flat&logo=tailwindcss&color=06B6D4)
+![Material 3](https://img.shields.io/badge/Design-Material_3-informational?style=flat&logo=materialdesign&color=757575)
+[![Storybook](https://img.shields.io/badge/Docs-Storybook-informational?style=flat&logo=storybook&color=FF4785)](https://roola-xyz.github.io/Leo/)
 
-<p align="center">
-  <a href="#whats-here">What's here</a> ·
-  <a href="#using-it-from-an-application">Using it</a> ·
-  <a href="#translation">Translation</a> ·
-  <a href="#working-on-it">Working on it</a>
-</p>
+# Leo
+
+The Roola design system: Material 3 primitives, the composites every Roola
+application shares, and the theme they are drawn in.
 
 ```tsx
 import { Button, Card, CardBody, Field } from "@roola/leo";
 ```
-
-Leo is the Roola design system: the Material 3 primitives and the handful of
-composites every Roola application shares, as one React library, plus the
-theme they are styled from.
 
 Every application in the estate — accounts, cloud, control, support, policies,
 helix, socialise — used to carry its own copy of these under
@@ -158,12 +143,6 @@ tests.
 Components use relative imports only — an application's TypeScript resolves
 Leo's files through the link, and would not know what `@/` means.
 
-## Security
+## Licence
 
-If you discover a security vulnerability within Leo, please send an e-mail to
-Phil Graham via ijeffrouk@gmail.com. All security vulnerabilities will be
-promptly addressed.
-
-## License
-
-MIT License © Vortz
+MIT. Security issues to ijeffrouk@gmail.com, please, rather than an issue.
