@@ -63,6 +63,23 @@ jobs:
       - name: Build Storybook
         run: pnpm storybook:build
 
+      # The wiki, as a Jekyll site in the minimal theme, under /docs/ beside
+      # Storybook. docs/ is generated from the estate's tools/wikis by
+      # tools/wikis/pages.py; Pages decides the path's spelling (/Leo/), so
+      # the base URL is read from it rather than written down.
+      - name: Read the Pages path
+        id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Point the docs at their path
+        run: printf 'baseurl: "%s/docs"\n' "${{ steps.pages.outputs.base_path }}" >> docs/_config.yml
+
+      - name: Build the docs
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: docs
+          destination: storybook-static/docs
+
       - name: Upload Storybook artifact
         uses: actions/upload-pages-artifact@v3
         with:
