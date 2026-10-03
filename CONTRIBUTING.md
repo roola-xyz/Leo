@@ -1,6 +1,6 @@
 # Leo <img src="./src/assets/leo.png" width="100" height="150"/> ![Version](https://img.shields.io/badge/Version-0.1.0-blue) [![Storybook](https://img.shields.io/badge/Storybook-Live-FF4785?logo=storybook)](https://atomixplus.github.io/Leo/) 
 
-![Code_Coverage](https://img.shields.io/badge/Code_Coverage-100%25-brightgreen)
+![Code_Coverage](https://img.shields.io/badge/Code_Coverage-78.06%25-brightgreen)
 [![Testing](https://github.com/AtomixPlus/Leo/actions/workflows/testing.yml/badge.svg)](https://github.com/AtomixPlus/Leo/actions/workflows/coverage.yml?branch=main)
 [![Linting](https://github.com/AtomixPlus/Leo/actions/workflows/linting.yml/badge.svg)](https://github.com/AtomixPlus/Leo/actions/workflows/linting.yml?branch=main)
 [![Building](https://github.com/AtomixPlus/Leo/actions/workflows/building.yml/badge.svg)](https://github.com/AtomixPlus/Leo/actions/workflows/building.yml?branch=main)
