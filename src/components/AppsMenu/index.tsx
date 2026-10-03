@@ -494,12 +494,17 @@ const tones: Record<string, string> = {
   support: "bg-primary-container text-on-primary-container",
 };
 
-function AppIcon({ name }: { name: string }) {
+/**
+ * A product's mark as the launcher draws it. Exported so a page that lists
+ * products — the account dashboard — shows the same disc for the same product.
+ */
+export function AppIcon({ name, className }: { name: string; className?: string }) {
   return (
     <span
       className={cn(
         "flex size-12 shrink-0 items-center justify-center rounded-full",
         tones[name] ?? "bg-primary-container text-on-primary-container",
+        className,
       )}
     >
       <svg

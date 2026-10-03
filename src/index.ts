@@ -68,7 +68,7 @@ export { TextArea } from "./components/TextArea";
 export { ThemeToggle, type Theme } from "./components/ThemeToggle";
 
 // Composites
-export { AppsMenu } from "./components/AppsMenu";
+export { AppsMenu, AppIcon } from "./components/AppsMenu";
 export { PanelSurface, PanelTopLine, PanelGroup } from "./components/Panel";
 export { ReportDialog, type ReportReason } from "./components/ReportDialog";
 export {
