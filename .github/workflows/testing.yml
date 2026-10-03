@@ -56,15 +56,13 @@ jobs:
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
 
-      # 9️⃣ Update coverage badge in README.md
+      # 9️⃣ Update the coverage badge, which only CONTRIBUTING.md carries now
       - name: Update Coverage Badge
         run: |
           COVERAGE=$(node -p "require('./coverage/coverage-summary.json').total.lines.pct")
           echo "Coverage: $COVERAGE%"
-          sed -i -E "s#(!\[Code_Coverage\]\(https://img.shields.io/badge/Code_Coverage-)[0-9]+%25-brightgreen#\1${COVERAGE}%25-brightgreen#g" README.md
-          sed -i -E "s#(!\[Code_Coverage\]\(https://img.shields.io/badge/Code_Coverage-)[0-9]+%25-brightgreen#\1${COVERAGE}%25-brightgreen#g" CONTRIBUTING.md
-          echo "Updated README.md with new coverage"
-          grep "Code_Coverage" README.md
+          sed -i -E "s#(!\[Code_Coverage\]\(https://img.shields.io/badge/Code_Coverage-)[0-9.]+%25-brightgreen#\1${COVERAGE}%25-brightgreen#g" CONTRIBUTING.md
+          grep "Code_Coverage" CONTRIBUTING.md
 
       # 🔟 Commit & push the updated badge only if there are changes
       - name: Commit and push badge update
