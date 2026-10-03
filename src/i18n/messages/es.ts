@@ -53,6 +53,7 @@ const es: LeoMessages = {
   "waiting.join": "Unirme a la lista de espera",
   "waiting.open": "La lista de espera está abierta",
   "waiting.promise": "Un solo correo cuando abramos. Puedes pedirnos que olvidemos tu dirección cuando quieras.",
+  "waiting.promiseAccount": "A continuación crearás tu cuenta de Roola, con {name} ya incluido: el día que abra, entrarás directamente.",
   "waiting.failed": "No se pudo completar. Inténtalo de nuevo en un minuto.",
 };
 

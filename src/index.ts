@@ -81,7 +81,7 @@ export {
   type UserMenuUser,
 } from "./components/UserMenu";
 export { VerificationToast, type Verification } from "./components/VerificationToast";
-export { WaitingList, PlatformGate, type PlatformStatus } from "./components/WaitingList";
+export { WaitingList, PlatformGate, joinThroughAccounts, type PlatformStatus } from "./components/WaitingList";
 export { PushSwitch } from "./components/PushSwitch";
 
 // Hooks

@@ -53,6 +53,7 @@ const zhHans: LeoMessages = {
   "waiting.join": "加入候补名单",
   "waiting.open": "候补名单开放中",
   "waiting.promise": "开放时只发一封邮件。您可以随时要求我们删除您的地址。",
+  "waiting.promiseAccount": "接下来你将创建 Roola 账户，{name} 已预先添加——开放当天即可直接登录。",
   "waiting.failed": "未能提交，请一分钟后重试。",
 };
 

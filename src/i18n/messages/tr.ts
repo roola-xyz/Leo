@@ -53,6 +53,7 @@ const tr: LeoMessages = {
   "waiting.join": "Bekleme listesine katıl",
   "waiting.open": "Bekleme listesi açık",
   "waiting.promise": "Açıldığımızda tek bir e-posta. Adresinizi unutmamızı istediğiniz zaman isteyebilirsiniz.",
+  "waiting.promiseAccount": "Ardından {name} zaten içinde olan Roola hesabını oluşturacaksın; açıldığı gün doğrudan giriş yaparsın.",
   "waiting.failed": "İşlem tamamlanamadı. Bir dakika sonra tekrar deneyin.",
 };
 

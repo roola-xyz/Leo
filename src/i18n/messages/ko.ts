@@ -53,6 +53,7 @@ const ko: LeoMessages = {
   "waiting.join": "대기 목록에 등록",
   "waiting.open": "대기 목록 접수 중",
   "waiting.promise": "열리면 메일 한 통만 보내 드립니다. 언제든지 주소 삭제를 요청하실 수 있습니다.",
+  "waiting.promiseAccount": "다음으로 {name}이(가) 미리 추가된 Roola 계정을 만듭니다. 공개되는 날 바로 로그인하세요.",
   "waiting.failed": "처리되지 않았습니다. 잠시 후 다시 시도해 주세요.",
 };
 

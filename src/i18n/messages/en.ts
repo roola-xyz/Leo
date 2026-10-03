@@ -58,6 +58,7 @@ const en = {
   "waiting.join": "Join the waiting list",
   "waiting.open": "The waiting list is open",
   "waiting.promise": "One email when we open. You can ask us to forget your address at any time.",
+  "waiting.promiseAccount": "Next you will make your Roola account, with {name} already on it — so the day it opens, you sign straight in.",
   "waiting.failed": "That did not go through. Try again in a minute.",
 } as const;
 

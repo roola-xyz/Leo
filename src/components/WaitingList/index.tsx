@@ -28,6 +28,33 @@ export interface PlatformStatus {
   waiting_list: boolean;
   since: string | null;
   message: string | null;
+  /**
+   * Accounts' registration page for this platform. Present, joining the list
+   * is making a Roola account with the platform already on it, so the person
+   * who queued signs straight in the day it opens; absent (an older accounts,
+   * or the gate switched off), the form hands an address to `onJoin` as before.
+   */
+  join_url?: string | null;
+}
+
+/**
+ * Sends somebody to accounts to join: the registration page for the platform,
+ * with the door they came through and the address they typed carried along.
+ *
+ * Never resolves, because the page is leaving — a form that flashed "you are
+ * on the list" on its way out would be claiming something that has not
+ * happened yet. Called from a landing page in a frame it still moves this
+ * window, not the frame: the function belongs to the product's page.
+ */
+export function joinThroughAccounts(joinUrl: string, input: { email?: string; source?: string }): Promise<void> {
+  const target = new URL(joinUrl);
+
+  if (input.source) target.searchParams.set("source", input.source);
+  if (input.email) target.searchParams.set("email", input.email);
+
+  window.location.assign(target.toString());
+
+  return new Promise(() => {});
 }
 
 export function WaitingList({
@@ -56,6 +83,9 @@ export function WaitingList({
   const [busy, setBusy] = useState(false);
   const [joined, setJoined] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Joining is registering, and the registration page asks the name itself.
+  const registers = Boolean(status.join_url);
 
   async function submit(event: FormEvent) {
     event.preventDefault();
@@ -171,12 +201,14 @@ export function WaitingList({
                     onChange={(e) => setEmail(e.target.value)}
                   />
 
-                  <Field
-                    label={t("waiting.name")}
-                    autoComplete="name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  />
+                  {!registers && (
+                    <Field
+                      label={t("waiting.name")}
+                      autoComplete="name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                  )}
                 </div>
 
                 <Button
@@ -189,7 +221,7 @@ export function WaitingList({
                 </Button>
 
                 <p className="text-center text-xs leading-4 text-pretty text-on-surface-variant">
-                  {t("waiting.promise")}
+                  {registers ? t("waiting.promiseAccount", { name: status.name }) : t("waiting.promise")}
                 </p>
               </form>
             )}
@@ -388,10 +420,20 @@ export function PlatformGate({
   if (status === null) return null;
 
   if (status !== "unknown" && status.waiting_list) {
-    const list = <WaitingList status={status} onJoin={onJoin} source={source} logo={logo} tagline={tagline} />;
+    /*
+     * Joining goes to accounts when accounts says where: the list is a Roola
+     * account with this platform on it. The product's own `onJoin` is only
+     * the fallback, for an accounts that has not said.
+     */
+    const joinUrl = status.join_url;
+    const join = joinUrl
+      ? (input: { email: string; source?: string }) => joinThroughAccounts(joinUrl, input)
+      : onJoin;
+
+    const list = <WaitingList status={status} onJoin={join} source={source} logo={logo} tagline={tagline} />;
 
     if (landing) {
-      return <LandingPage src={landing} status={status} onJoin={onJoin} source={source} fallback={list} />;
+      return <LandingPage src={landing} status={status} onJoin={join} source={source} fallback={list} />;
     }
 
     return list;

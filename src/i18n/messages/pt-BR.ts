@@ -53,6 +53,7 @@ const ptBR: LeoMessages = {
   "waiting.join": "Entrar na lista de espera",
   "waiting.open": "A lista de espera está aberta",
   "waiting.promise": "Um único e-mail quando abrirmos. Você pode pedir que esqueçamos seu endereço a qualquer momento.",
+  "waiting.promiseAccount": "Em seguida você cria sua conta Roola, já com {name} nela — no dia em que abrir, é só entrar.",
   "waiting.failed": "Não deu certo. Tente de novo em um minuto.",
 };
 

@@ -53,6 +53,7 @@ const ja: LeoMessages = {
   "waiting.join": "順番待ちリストに登録",
   "waiting.open": "順番待ちリスト受付中",
   "waiting.promise": "公開時にメールを 1 通お送りします。アドレスの削除はいつでも依頼できます。",
+  "waiting.promiseAccount": "次に Roola アカウントを作成します。{name} はあらかじめ追加されるので、公開日にそのままサインインできます。",
   "waiting.failed": "送信できませんでした。1 分ほど待ってからもう一度お試しください。",
 };
 
