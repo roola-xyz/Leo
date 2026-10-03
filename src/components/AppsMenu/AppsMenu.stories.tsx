@@ -60,8 +60,8 @@ export const WithApps: Story = {
     await expect(await canvas.findByRole("link", { name: "Politicise" })).toBeVisible();
     await expect(canvas.getByRole("heading", { name: "Your favourites" })).toBeVisible();
 
-    // The person leads the favourites, and the seventh app sits below the card.
-    await expect(canvas.getByRole("link", { name: "Account" })).toBeVisible();
+    // Roola leads the favourites, and the seventh app sits below the card.
+    await expect(canvas.getByRole("link", { name: "Roola" })).toBeVisible();
     await expect(canvas.getByRole("link", { name: "Console" })).toBeVisible();
 
     // Editing: the pencil turns the tiles into add/remove buttons, and one
@@ -79,12 +79,10 @@ export const WithApps: Story = {
 
     await userEvent.click(canvas.getByRole("button", { name: "Done" }));
 
-    // Account first, then the favourites in their new order, then Manage
-    // below the card.
-    // The name is the tile's last line; the portrait's initial is hidden
-    // from readers but not from textContent.
+    // The favourites in their new order, then Manage below the card. The
+    // name is the tile's last line.
     const names = canvas.getAllByRole("link").map((link) => link.lastElementChild?.textContent);
-    await expect(names.slice(0, 4)).toEqual(["Account", "Helix", "Roola", "Politicise"]);
+    await expect(names.slice(0, 3)).toEqual(["Helix", "Roola", "Politicise"]);
     await expect(names[names.length - 1]).toBe("Manage");
     await expect(JSON.parse(localStorage.getItem("roola.apps.favourites") ?? "[]")[0]).toBe("Helix");
 

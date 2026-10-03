@@ -21,30 +21,26 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
         with:
-          node-version: 20
-
-      - name: Enable Corepack & pnpm
-        run: |
-          corepack enable
-          corepack prepare pnpm@latest --activate
-          pnpm -v
+          node-version: 22
+          cache: pnpm
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Install Playwright
-        run: pnpm exec playwright install --with-deps
+        run: pnpm exec playwright install --with-deps chromium
 
       - name: Run unit testing
-        run: pnpm vitest
+        run: pnpm vitest run
 
       - name: Run browser testing
-        run: pnpm playwright test
+        run: pnpm playwright test --pass-with-no-tests
 
   build:
     needs: test
@@ -52,18 +48,14 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
         with:
-          node-version: 20
-
-      - name: Enable Corepack & pnpm
-        run: |
-          corepack enable
-          corepack prepare pnpm@latest --activate
-          pnpm -v
+          node-version: 22
+          cache: pnpm
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile

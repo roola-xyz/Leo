@@ -35,7 +35,7 @@ export const Default: Story = {
     await expect(canvas.getByRole("alertdialog")).toBeVisible();
     await expect(canvas.getByText("4 8 1 5")).toBeVisible();
 
-    await userEvent.click(canvas.getByRole("button", { name: /it's me/i }));
+    await userEvent.click(canvas.getByRole("button", { name: /it[’']s me/i }));
     await expect(args.onApprove).toHaveBeenCalledWith("v_01");
   },
 };

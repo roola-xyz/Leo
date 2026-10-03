@@ -17,27 +17,24 @@ jobs:
     steps:
       # 1️⃣ Checkout repository with full history so we can push
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
           persist-credentials: true
 
-      # # 2️⃣ Setup Node.js
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      # pnpm is the version package.json pins (packageManager); Node 22 is
+      # what Vite 8 and Storybook 10 want.
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
         with:
-          node-version: 20
+          node-version: 22
+          cache: pnpm
 
-      # # 3️⃣ Enable Corepack & pnpm
-      - name: Enable Corepack and pnpm
-        run: |
-          corepack enable
-          corepack prepare pnpm@latest --activate
-          pnpm -v
-
-      # # 4️⃣ Install dependencies
-      # - name: Install dependencies
-      #   run: pnpm install
+      # 4️⃣ Install dependencies, so Prettier and ESLint report the versions
+      # the project uses rather than whatever npx downloads.
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --ignore-scripts
 
       # 5️⃣ Setup Git author info
       - name: Setup Git
@@ -106,7 +103,7 @@ jobs:
           echo "Updating README.md with Node.js version: $NODE_VERSION"
           sed -i -E "s#(!\[Node\.js\]\(https://img.shields.io/badge/Node\.js-)[^ ]+(-informational\?style=flat&logo=nodedotjs&color=3c873a\))#\1${NODE_VERSION}\2#g" README.md
           sed -i -E "s#(!\[Node\.js\]\(https://img.shields.io/badge/Node\.js-)[^ ]+(-informational\?style=flat&logo=nodedotjs&color=3c873a\))#\1${NODE_VERSION}\2#g" CONTRIBUTING.md
-          grep "Node.js" || true
+          grep "Node.js" README.md || true
 
       # 6️⃣ Update TypeScript Badge
       - name: Update TypeScript Badge with Version
@@ -115,7 +112,7 @@ jobs:
           echo "Updating README.md with TypeScript version: $TS_VERSION"
           sed -i -E "s#(!\[TypeScript\]\(https://img.shields.io/badge/Typescript-)[^ ]+(-informational\?style=flat&logo=typescript&color=3178c6\))#\1${TS_VERSION}\2#g" README.md
           sed -i -E "s#(!\[TypeScript\]\(https://img.shields.io/badge/Typescript-)[^ ]+(-informational\?style=flat&logo=typescript&color=3178c6\))#\1${TS_VERSION}\2#g" CONTRIBUTING.md
-          grep "Typescript" || true
+          grep "Typescript" README.md || true
 
       # Update Playwright Badge with Custom SVG
       - name: Update Playwright Badge with Version
@@ -160,20 +157,12 @@ jobs:
       # 6️⃣ Update React.js Badge with Version
       - name: Update React.js Badge with Version
         run: |
-          REACT_VERSION=$(node -p "let v=require('./package.json').dependencies.react.replace(/^\^/, ''); 'v'+v")
+          REACT_VERSION=$(node -p "let v=require('./package.json').devDependencies.react.replace(/^\^/, ''); 'v'+v")
           echo "Updating README.md with React version: $REACT_VERSION"
           sed -i -E "s#(!\[React\.js\]\(https://img.shields.io/badge/React\.js-)[^ ]+(-61DAFB\?logo=react&logoColor=white\))#\1${REACT_VERSION}\2#g" README.md
           sed -i -E "s#(!\[React\.js\]\(https://img.shields.io/badge/React\.js-)[^ ]+(-61DAFB\?logo=react&logoColor=white\))#\1${REACT_VERSION}\2#g" CONTRIBUTING.md
-          grep "React" || true
+          grep "React" README.md || true
 
-      # 6️⃣ Update React.js Badge with Version
-      - name: Update tslint.js Badge with Version
-        run: |
-          REACT_VERSION=$(node -p "let v=require('./package.json').dependencies.react.replace(/^\^/, ''); 'v'+v")
-          echo "Updating README.md with React version: $REACT_VERSION"
-          sed -i -E "s#(!\[React\.js\]\(https://img.shields.io/badge/React\.js-)[^ ]+(-61DAFB\?logo=react&logoColor=white\))#\1${REACT_VERSION}\2#g" README.md
-          sed -i -E "s#(!\[React\.js\]\(https://img.shields.io/badge/React\.js-)[^ ]+(-61DAFB\?logo=react&logoColor=white\))#\1${REACT_VERSION}\2#g" CONTRIBUTING.md
-          grep "React" || true
 
   
       # 7️⃣ Commit & push the updated badge only if there are changes
@@ -182,6 +171,8 @@ jobs:
           git add README.md CONTRIBUTING.md
           if ! git diff --cached --quiet; then
             git commit -m "chore: update version badge [skip ci]"
+            # Testing and Versioning both commit badges for the same push.
+            git pull --rebase origin "${GITHUB_REF_NAME}"
             git push origin HEAD
           else
             echo "No changes to commit"

@@ -48,7 +48,7 @@ export default defineConfig({
 
     reporter: [
         ["list"],
-        ["html", { outputFolder: "coverage/playwright-report", open: "always" }],
+        ["html", { outputFolder: "coverage/playwright-report", open: process.env["CI"] ? "never" : "always" }],
     ],
 
 
