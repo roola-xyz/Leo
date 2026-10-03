@@ -100,6 +100,10 @@ export function usePush(publicKey: string | null | undefined, available: boolean
       }
 
       setState("off");
+    } catch {
+      // The browser would not let go of it. Say what is true now rather than
+      // leave a rejected promise on a click handler and a switch that lies.
+      await read();
     } finally {
       setWorking(false);
     }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { format, parse, toString } from "./format";
+import { format, parse, toNodes, toString } from "./format";
 
 const say = (message: string, values = {}, locale = "en") =>
   toString(format(parse(message), values, locale));
@@ -65,5 +65,103 @@ describe("message format", () => {
 
   it("does not mistake a comparison for a tag", () => {
     expect(say("a < b and c > d")).toBe("a < b and c > d");
+  });
+
+  it("keeps a stray closing brace as text rather than throwing it away", () => {
+    expect(say("Fine} so far")).toBe("Fine} so far");
+  });
+
+  it("keeps a brace it cannot read as an argument", () => {
+    expect(say("{not an argument here} still reads")).toBe("{not an argument here} still reads");
+  });
+
+  it("shows nothing for a value that is deliberately empty", () => {
+    expect(say("[{value}]", { value: null })).toBe("[]");
+    expect(say("[{value}]", { value: false })).toBe("[]");
+  });
+
+  it("prints true and strings as they are", () => {
+    expect(say("{flag} {word}", { flag: true, word: "yes" })).toBe("true yes");
+  });
+
+  it("formats a date for the locale", () => {
+    const moment = new Date(Date.UTC(2026, 8, 12, 12));
+
+    expect(say("Since {when}", { when: moment })).toBe("Since Sep 12, 2026");
+  });
+
+  it("leaves a placeholder visible when it is given a tag renderer", () => {
+    expect(say("Hello, {name}.", { name: () => "Ada" })).toBe("Hello, {name}.");
+  });
+
+  it("hands a React node through untouched, and joins only what is text", () => {
+    const element = { type: "strong", props: {} };
+    const parts = format(parse("Hello, {name}."), { name: element as never }, "en");
+
+    expect(parts).toEqual(["Hello, ", { node: element }, "."]);
+    expect(toString(parts)).toBe("Hello, .");
+    expect(toString([{ node: 42 }, { node: "!" }])).toBe("42!");
+  });
+
+  it("draws a self-closing tag with no contents", () => {
+    const parts = format(parse("Line<br/>break"), { br: (chunks) => `[${chunks.length}]` }, "en");
+
+    expect(toString(parts)).toBe("Line[0]break");
+  });
+
+  it("subtracts the offset before choosing the form and printing the count", () => {
+    const message = "{count, plural, offset:1 =0 {Nobody} =1 {Just you} one {You and # other} other {You and # others}}";
+
+    expect(say(message, { count: 0 })).toBe("Nobody");
+    expect(say(message, { count: 1 })).toBe("Just you");
+    expect(say(message, { count: 2 })).toBe("You and 1 other");
+    expect(say(message, { count: 4 })).toBe("You and 3 others");
+  });
+
+  it("reads an offset that is not a number as no offset", () => {
+    expect(say("{count, plural, offset:x other {# left}}", { count: 3 })).toBe("3 left");
+  });
+
+  it("prints a count that is not a number as it was given", () => {
+    expect(say("{count, plural, one {# item} other {# items}}", { count: "many" })).toBe("many items");
+  });
+
+  it("says nothing for a plural or select with no option that fits", () => {
+    expect(say("[{count, plural, one {# item}}]", { count: 5 })).toBe("[]");
+    expect(say("[{state, select, open {Open}}]", { state: "closed" })).toBe("[]");
+  });
+
+  it("stops reading options at the first malformed one", () => {
+    expect(say("{state, select, open {Open} closed}", { state: "open" })).toBe("Open");
+  });
+
+  it("keeps a pound sign in a select inside a plural as the count", () => {
+    const message = "{count, plural, other {{kind, select, file {# files} other {# things}}}}";
+
+    expect(say(message, { count: 3, kind: "file" })).toBe("3 files");
+  });
+
+  it("prints a pound sign outside a plural as itself", () => {
+    expect(say("{kind, select, other {Ticket #}}", { kind: "x" })).toBe("Ticket #");
+  });
+
+  it("accepts a select written without the comma before its options", () => {
+    expect(say("{state, select open {Open} other {Shut}}", { state: "open" })).toBe("Open");
+  });
+
+  it("forgives a tag that is never closed and a quote that never ends", () => {
+    expect(say("<b>bold to the end")).toBe("bold to the end");
+    expect(say("'{unterminated")).toBe("{unterminated");
+  });
+
+  it("parses a message once and reuses it", () => {
+    expect(parse("Cached {once}")).toBe(parse("Cached {once}"));
+  });
+
+  it("merges adjacent words into one child and keeps nodes between them", () => {
+    const element = { type: "em" };
+
+    expect(toNodes(["a", "b", { node: element }, "c"])).toEqual(["ab", element, "c"]);
+    expect(toNodes([{ node: element }])).toEqual([element]);
   });
 });

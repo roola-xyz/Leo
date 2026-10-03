@@ -31,6 +31,10 @@ export default defineConfig({
       provider: "v8",
       reporter: ["text", "json-summary", "lcov", 'html'],
       reportsDirectory: "coverage",
+      // Every source file, whether or not a test happened to load it, so the
+      // figure is the share of the library that is tested, not of what ran.
+      include: ["src/**/*.{ts,tsx}"],
+      exclude: ["src/**/*.stories.{ts,tsx}", "src/**/*.test.{ts,tsx}", "src/**/*.spec.{ts,tsx}", "src/**/*.d.ts"],
     },
 
 
