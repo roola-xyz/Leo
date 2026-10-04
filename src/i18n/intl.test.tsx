@@ -27,7 +27,8 @@ describe("formatters", () => {
     expect(english.number(1234.5)).toBe("1,234.5");
     expect(formatters("de").number(1234.5)).toBe("1.234,5");
     expect(english.number(0.5, { style: "percent" })).toBe("50%");
-    expect(english.compact(1234)).toBe("1.2K");
+    // ICU's thousands sign: newer CLDR data writes en-GB's in lower case.
+    expect(english.compact(1234)).toMatch(/^1\.2k$/i);
     expect(english.percent(0.123)).toBe("12%");
     expect(english.percent(0.125, { maximumFractionDigits: 1 })).toBe("12.5%");
     expect(english.currency(12, "GBP")).toBe("£12.00");
