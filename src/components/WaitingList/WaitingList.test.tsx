@@ -12,11 +12,11 @@ const closed: PlatformStatus = {
 
 const openDoor: PlatformStatus = { ...closed, open: true, waiting_list: false };
 
-let assigned: ReturnType<typeof vi.fn>;
+let assigned: ReturnType<typeof vi.fn<(url: string | URL) => void>>;
 
 beforeEach(() => {
   // Leaving the page is the browser's business; here it is only recorded.
-  assigned = vi.fn();
+  assigned = vi.fn<(url: string | URL) => void>();
   vi.spyOn(window.location, "assign").mockImplementation(assigned);
 });
 

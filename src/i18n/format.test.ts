@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { describe, expect, it } from "vitest";
 import { format, parse, toNodes, toString } from "./format";
 
@@ -159,7 +160,7 @@ describe("message format", () => {
   });
 
   it("merges adjacent words into one child and keeps nodes between them", () => {
-    const element = { type: "em" };
+    const element = { type: "em" } as unknown as ReactNode;
 
     expect(toNodes(["a", "b", { node: element }, "c"])).toEqual(["ab", element, "c"]);
     expect(toNodes([{ node: element }])).toEqual([element]);

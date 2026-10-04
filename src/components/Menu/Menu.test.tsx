@@ -115,7 +115,7 @@ describe("MenuItem", () => {
     // The click is recorded, not followed: following it would leave for the network.
     const pressed = vi.fn((event: Event) => event.preventDefault());
     render(
-      <MenuItem href="https://help.example.test" target="_blank" rel="noreferrer" icon="help" onClick={pressed as never}>
+      <MenuItem href="https://help.example.test" target="_blank" rel="noreferrer" icon="info" onClick={pressed as never}>
         Help
       </MenuItem>,
     );

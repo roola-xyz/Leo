@@ -125,7 +125,7 @@ describe("usePush", () => {
     await act(() => result.current.enable());
 
     expect(fake.serviceWorker.register).toHaveBeenCalledWith("/worker.js");
-    const options = fake.pushManager.subscribe.mock.calls[0]![0] as unknown as PushSubscriptionOptionsInit;
+    const options = (fake.pushManager.subscribe.mock.calls[0] as unknown[])[0] as PushSubscriptionOptionsInit;
     expect(options.userVisibleOnly).toBe(true);
     expect([...new Uint8Array(options.applicationServerKey as ArrayBuffer)]).toEqual([1, 0, 1, 251, 255]);
     expect(product.subscribe).toHaveBeenCalledWith({
