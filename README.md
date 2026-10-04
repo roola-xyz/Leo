@@ -6,7 +6,7 @@
 </p>
 
 <h2 align="center">
-  <img src="https://img.shields.io/badge/Version-0.1.0-blue" alt="Version">&nbsp;
+  <a href="package.json" target="_blank"><img src="https://img.shields.io/badge/Version-0.1.0-blue" alt="Version"></a>&nbsp;
   <a href="https://react.dev/" target="_blank"><img src="https://img.shields.io/badge/React-v19-61DAFB?style=flat&logo=react&logoColor=white" alt="React"></a>&nbsp;
   <a href="https://www.typescriptlang.org/" target="_blank"><img src="https://img.shields.io/badge/TypeScript-v5.9-3178C6?style=flat&logo=typescript&logoColor=white" alt="TypeScript"></a>&nbsp;
   <a href="https://tailwindcss.com/" target="_blank"><img src="https://img.shields.io/badge/Tailwind-v4-06B6D4?style=flat&logo=tailwindcss&logoColor=white" alt="Tailwind"></a>&nbsp;
