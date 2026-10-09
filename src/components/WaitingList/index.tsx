@@ -70,9 +70,35 @@ function ready(): void {
   document.documentElement.dataset.appReady = "1";
 }
 
-/** The product itself: drawn, so the splash can go. */
+/**
+ * The product itself: ready once it has drawn something.
+ *
+ * Not on mount. A product fetched only once the door is open (a lazy import
+ * behind a Suspense whose fallback is nothing) shows nothing until its chunk
+ * arrives, and a page called ready then would drop the splash onto a blank
+ * one. So the mark waits for the element the product renders into, #root,
+ * to have a child; a page with no such element is ready at once.
+ */
 function Open({ children }: { children: ReactNode }) {
-  useEffect(ready, []);
+  useEffect(() => {
+    const root = document.getElementById("root");
+
+    if (!root || root.firstElementChild) {
+      ready();
+      return;
+    }
+
+    const drawn = new MutationObserver(() => {
+      if (!root.firstElementChild) return;
+
+      ready();
+      drawn.disconnect();
+    });
+
+    drawn.observe(root, { childList: true });
+
+    return () => drawn.disconnect();
+  }, []);
 
   return <>{children}</>;
 }

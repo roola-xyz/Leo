@@ -1,4 +1,5 @@
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { Suspense, lazy } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { PlatformGate, WaitingList, joinThroughAccounts, type PlatformStatus } from "./index";
 
@@ -143,6 +144,46 @@ describe("PlatformGate", () => {
     expect(document.documentElement.dataset.appReady).toBeUndefined();
     await screen.findByText("The product");
     expect(document.documentElement.dataset.appReady).toBe("1");
+  });
+
+  it("waits for a product that is still on its way before saying the page is ready", async () => {
+    // The element a product renders into, as its index.html has it.
+    const root = document.body.appendChild(document.createElement("div"));
+    root.id = "root";
+
+    let arrive!: () => void;
+    const Product = lazy(
+      () =>
+        new Promise<{ default: () => React.JSX.Element }>((resolve) => {
+          arrive = () => resolve({ default: () => <p>The product</p> });
+        }),
+    );
+
+    try {
+      render(
+        <PlatformGate
+          fetchStatus={() => Promise.resolve(openDoor)}
+          onJoin={vi.fn()}
+        >
+          <Suspense fallback={null}>
+            <Product />
+          </Suspense>
+        </PlatformGate>,
+        { container: root },
+      );
+
+      await waitFor(() => expect(root.innerHTML).toBe(""));
+      expect(document.documentElement.dataset.appReady).toBeUndefined();
+
+      await act(async () => arrive());
+
+      await screen.findByText("The product");
+      await waitFor(() =>
+        expect(document.documentElement.dataset.appReady).toBe("1"),
+      );
+    } finally {
+      root.remove();
+    }
   });
 
   it("draws nothing until it knows, then the product when the door is open", async () => {
