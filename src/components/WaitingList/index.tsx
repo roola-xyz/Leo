@@ -57,6 +57,26 @@ export function joinThroughAccounts(joinUrl: string, input: { email?: string; so
   return new Promise(() => {});
 }
 
+/**
+ * Says the page has something on it.
+ *
+ * Each product's index.html shows a splash — the mark and the name — until
+ * the application has drawn, and hides it on `html[data-app-ready]`. Set
+ * here rather than on the first render into #root, because the first render
+ * can be a frame whose document has not loaded yet: hiding the splash then
+ * left a white page until the landing page arrived.
+ */
+function ready(): void {
+  document.documentElement.dataset.appReady = "1";
+}
+
+/** The product itself: drawn, so the splash can go. */
+function Open({ children }: { children: ReactNode }) {
+  useEffect(ready, []);
+
+  return <>{children}</>;
+}
+
 export function WaitingList({
   status,
   onJoin,
@@ -79,6 +99,8 @@ export function WaitingList({
 }) {
   const { t, rich } = useLeoTranslations();
   const [email, setEmail] = useState("");
+
+  useEffect(ready, []);
   const [name, setName] = useState("");
   const [busy, setBusy] = useState(false);
   const [joined, setJoined] = useState(false);
@@ -338,7 +360,7 @@ function LandingPage({
     <iframe
       src={src}
       title={status.name}
-      className="fixed inset-0 size-full border-0 bg-surface"
+      className="fixed inset-0 size-full border-0 bg-surface-low"
       onLoad={(event) => {
         let page: Document | null = null;
 
@@ -355,6 +377,7 @@ function LandingPage({
 
         // The tab says what the page says, not the product's usual title.
         document.title = page.title;
+        ready();
       }}
     />
   );
@@ -439,5 +462,5 @@ export function PlatformGate({
     return list;
   }
 
-  return <>{children}</>;
+  return <Open>{children}</Open>;
 }

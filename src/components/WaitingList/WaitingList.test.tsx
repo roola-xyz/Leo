@@ -22,6 +22,7 @@ beforeEach(() => {
 
 afterEach(() => {
   vi.restoreAllMocks();
+  delete document.documentElement.dataset.appReady;
   delete window.roolaWaitingList;
 });
 
@@ -129,6 +130,21 @@ describe("WaitingList", () => {
 });
 
 describe("PlatformGate", () => {
+  it("says the page is ready once the product is drawn", async () => {
+    render(
+      <PlatformGate
+        fetchStatus={() => Promise.resolve(openDoor)}
+        onJoin={vi.fn()}
+      >
+        <p>The product</p>
+      </PlatformGate>,
+    );
+
+    expect(document.documentElement.dataset.appReady).toBeUndefined();
+    await screen.findByText("The product");
+    expect(document.documentElement.dataset.appReady).toBe("1");
+  });
+
   it("draws nothing until it knows, then the product when the door is open", async () => {
     let answer!: (status: PlatformStatus) => void;
     const fetchStatus = vi.fn(() => new Promise<PlatformStatus>((resolve) => (answer = resolve)));
@@ -297,6 +313,37 @@ describe("PlatformGate", () => {
       gate(closed);
 
       expect(await closedDoor()).toBeTruthy();
+    });
+
+    /*
+     * The splash in each product's index.html stays until the document says
+     * it has something on it — not when the frame is drawn, which is before
+     * the landing page has loaded, but when it has.
+     */
+    it("says the page is ready once the landing page has loaded, and not before", async () => {
+      framed(
+        () =>
+          ({
+            title: "Helix is coming",
+            documentElement: { dataset: { landing: "helix" } },
+          }) as never,
+      );
+
+      gate(closed);
+
+      expect(document.documentElement.dataset.appReady).toBeUndefined();
+      await waitFor(() =>
+        expect(document.documentElement.dataset.appReady).toBe("1"),
+      );
+    });
+
+    it("says the page is ready when the plain list stands in for the landing page", async () => {
+      framed(() => null);
+
+      gate(closed);
+
+      await closedDoor();
+      expect(document.documentElement.dataset.appReady).toBe("1");
     });
   });
 });
