@@ -3,7 +3,7 @@ name: Release
 run-name: "Release · ${{ github.sha }}"
 
 # A push to main asks the estate to build and deploy what this
-# repository goes into: accounts, adverts, cloud, control, everything, helix, manage, news, policies, politicise, socialise, support. The estate's Containers workflow
+# repository goes into: accounts, adverts, cloud, control, everything, helix, news, policies, politicise, support. The estate's Containers workflow
 # (roola-xyz/Estate .github/workflows/containers.yml) builds those images and
 # rolls them out to the cluster with `helm upgrade --install`.
 #
@@ -13,6 +13,8 @@ run-name: "Release · ${{ github.sha }}"
 on:
   push:
     branches: [main]
+    # Nothing that goes into an image: no rebuild for a workflow or a README.
+    paths-ignore: ['.github/**', '**/*.md']
   workflow_dispatch:
 
 permissions:
@@ -33,5 +35,5 @@ jobs:
           fi
           gh api repos/roola-xyz/Estate/dispatches \
             -f event_type=release \
-            -f 'client_payload[sites]=accounts adverts cloud control everything helix manage news policies politicise socialise support' \
+            -f 'client_payload[sites]=accounts adverts cloud control everything helix news policies politicise support' \
             -f 'client_payload[from]=${{ github.repository }}@${{ github.sha }}'
